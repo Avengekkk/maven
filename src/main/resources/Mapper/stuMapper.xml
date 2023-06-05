@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--  namespace:名称空间-->
+<mapper namespace="Mapper.stuMapper">
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into stu
+        values(#{id},#{gender}, #{name} ,#{birthday} ,#{score}, #{email}, #{phone}, #{status});
+    </insert>
+
+
+    <update id="setData">
+        <!--        update stu set id=-->
+        <!--        columnName1=value1,columnName2=value2,...[where conditions];-->
+        update stu
+        <set>
+            name=#{name}
+            where
+            id=#{id};
+        </set>
+
+    </update>
+
+
+
+
+    <delete id="delete">
+        delete from stu where id=#{id};
+    </delete>
+
+
+
+    <delete id="deleteByIds">
+
+        delete from stu
+        <where>
+            id in
+            <foreach collection="ids" item="id" separator="," open="(" close=")">
+                #{id}
+            </foreach>
+
+        </where>
+
+
+    </delete>
+
+
+
+    <select id="selectAll" resultType="CLASS.stu">
+        select* from stu order by id;
+
+
+    </select>
+    <select id="selectID" resultType="CLASS.stu">
+        select* from stu where id=#{id};
+    </select>
+
+
+    <select id="selectByCondition" resultType="CLASS.stu">
+        select * from stu
+        <where>
+            <if test="id!=null">
+                and id=#{id}
+            </if>
+            <if test="gender!=null and gender!=''">
+                and gender=#{gender}
+            </if>
+            <if test="name!=null and name!=''">
+                and name like #{name}
+            </if>
+
+        </where>
+    </select>
+
+
+    <select id="select" resultType="CLASS.stu">
+        select* from stu
+        <where>
+            <if test="phone!=null and phone!=''">
+                and phone like #{phone}
+            </if>
+            <if test="gender!=null and gender!=''">
+                and gender=#{gender}
+            </if>
+            <if test="name!=null and name!=''">
+                and name like #{name}
+            </if>
+        </where>
+
+    </select>
+
+
+</mapper>
